@@ -1,0 +1,40 @@
+enum Directions {
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+}
+
+class Programm{
+
+    int move (int x,int y,Directions side){
+        switch (side){
+            case UP:
+                System.out.printf("%d,%d",x,++y);
+                return y;
+            case DOWN:
+                System.out.printf("%d,%d",x,--y);
+                return y;
+            case LEFT:
+                System.out.printf("%d,%d",--x,y);
+                return x;
+            case RIGHT:
+                System.out.printf("%d,%d",++x,y);
+                return x;
+        }
+        return 0;
+    }
+
+    void moving(){
+        int[] location = {0,0};
+        Directions up = Directions.UP;
+        Directions down = Directions.DOWN;
+        Directions left = Directions.LEFT;
+        Directions right = Directions.RIGHT;
+
+        Directions directions[] = {up, up, left, down, left, down, down, right, right, down, right};
+        for (int i =0;i<directions.length;i++){
+            move (location[0],location[1],directions[i]);
+        }   
+    }
+}
