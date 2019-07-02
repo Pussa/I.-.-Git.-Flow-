@@ -1,0 +1,13 @@
+class  AppLyambda {
+    public void main(String[] args) {
+        Runnable myClosure  = ()->{
+            System.out.println("I love Java");
+        };
+        repeatTask(10,myClosure);
+    }
+    public void repeatTask (int times, Runnable task){
+        for (int i = 0;i<times;i++){
+            System.out.println(task);
+        }
+    }
+} //не понимаю зачем тут потоки, но надеюсь я правильно понял
