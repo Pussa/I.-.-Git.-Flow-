@@ -1,0 +1,84 @@
+class Program {
+
+    public static void main(String[] args) {
+        Shape shape = new Circle(10);
+        shape.perimeter();
+        shape.area();
+        shape = new Square(5);
+        shape.perimeter();
+        shape.area();
+        shape  = new Rectangle(5,6);
+        shape.perimeter();
+        shape.area();
+
+    }
+}
+interface Shape {
+    void perimeter();
+    void area ();
+
+}
+
+class Rectangle implements Shape{
+    private int width;
+    private int length;
+    int getWidith(){
+        return width;
+    }
+    int getLength(){
+        return length;
+    }
+    Rectangle(int width,int length){
+        this.width =width;
+        this.length = length;
+    }
+
+    public void perimeter(){
+        System.out.println(width*2+length*2);
+    }
+
+    public void area(){
+        System.out.println(width*length);
+    }
+
+
+}
+class Square implements Shape {
+    private int length;
+
+    int getLength(){
+        return length;
+    }
+    Square(int length){
+        this.length = length;
+    }
+    public void perimeter(){
+        System.out.println(length*4);
+    }
+    public void area(){
+        System.out.println(length*length);
+    }
+
+
+}
+class Circle implements Shape {
+
+    private double diameter;
+
+    double getDiameter(){
+        return diameter;
+    }
+
+    Circle(double diameter){
+
+        this.diameter = diameter;
+    }
+    public void perimeter() {
+        System.out.println(diameter*Math.PI);
+    }
+
+    public void area(){
+        System.out.println(Math.pow((diameter/2),2)*Math.PI);
+    }
+
+}
