@@ -1,31 +1,24 @@
-enum Directions {
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT
-}
-
 class Programm{
 
-    int move (int x,int y,Directions side){
+    static int move (int x,int y,Directions side){
         switch (side){
             case UP:
-                System.out.printf("%d,%d",x,++y);
-                return y;
+                System.out.printf("%d,%d \n",x,++y);
+                return 1;
             case DOWN:
-                System.out.printf("%d,%d",x,--y);
-                return y;
+                System.out.printf("%d,%d\n",x,--y);
+                return -1;
             case LEFT:
-                System.out.printf("%d,%d",--x,y);
-                return x;
+                System.out.printf("%d,%d\n",--x,y);
+                return -1;
             case RIGHT:
-                System.out.printf("%d,%d",++x,y);
-                return x;
+                System.out.printf("%d,%d\n",++x,y);
+                return 1;
         }
         return 0;
     }
 
-    void moving(){
+    public static void main(String[] args){
         int[] location = {0,0};
         Directions up = Directions.UP;
         Directions down = Directions.DOWN;
@@ -34,7 +27,16 @@ class Programm{
 
         Directions directions[] = {up, up, left, down, left, down, down, right, right, down, right};
         for (int i =0;i<directions.length;i++){
-            move (location[0],location[1],directions[i]);
-        }   
+
+            location[(directions[i]==up)||(directions[i]==down)?1:0] += move (location[0],location[1],directions[i]);
+        }
     }
 }
+
+enum Directions {
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+}
+
