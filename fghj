@@ -1,0 +1,92 @@
+from random import choices
+ants = 50000
+
+cs = 5
+matrix = [[0 ,1, 2, 3, 1, 45, 2, 31, 23, 1, 54, 23, 12, 35],[2,3 ,0 ,2, 3, 1, 2, 3, 1, 2, 3, 12, 5, 23, 1 ],[1, 2, 0, 3, 5, 23, 1, 2, 3, 1, 44, 5, 6, 7], [1, 2, 5, 0, 1, 3, 2, 1, 31, 3, 1, 23, 12, 3],[ 3, 5, 6, 8, 0, 2, 1, 2, 3, 45, 6, 5, 3, 12],[5, 2, 3, 1, 32, 0, 2, 3, 23, 54, 6, 3, 1, 32],[6, 7, 43, 32, 1 ,32, 0, 3, 1, 53, 33, 43, 4, 12],[23, 3, 2, 1, 54, 32, 12, 0, 3, 2 ,54, 23, 1, 23],[12, 23, 45, 15, 32, 54, 23, 23, 0 ,12, 32, 31, 54, 23],[23, 54, 32, 12, 23, 53 ,34, 13, 32, 0 ,2 ,31, 2, 3],[54 ,23, 12, 35, 23, 56, 43, 32, 12, 32, 0 ,54, 23, 32],[43, 23, 3, 12 ,23 ,3 ,12, 54, 12, 32, 43, 0 ,54, 12],[12 ,32, 23 ,16, 63, 4 ,12 ,21, 23, 2 ,12 ,32 ,0, 75],[42, 43, 55, 23, 17, 32, 56, 31, 12, 5, 32, 14, 27, 0]]
+a =1
+b = 2
+Q = 1
+
+cs = len(matrix)
+def sig(cs, t, a, n, b):
+    sigma = 0
+    for i in range(cs):
+        for j in range(cs):
+            sigma = sigma + t[i][j] ** a * n[i][j] ** b
+    return sigma
+
+def nn(matrix,cs):
+    n = [[1 / matrix[i][j] if matrix[i][j] != 0 else 0 for j in range(cs)] for i in range(cs)]
+    return n
+
+
+
+#Муравьи обладают «зрением» – видимость есть эвристическое желание посетить город j, если муравей находится в городе i
+n = nn(matrix,cs)
+#Муравьи обладают «обонянием» – они могут улавливать след феромона, подтверждающий желание посетить город j из города i, на основании опыта других муравьев
+t = [[Q for j in range(cs)] for i in range(cs)]
+
+
+sigma = sig(cs,t,a,n,b)
+ph = 0.2
+
+p = [[(t[i][j]**a*n[i][j]**b)/sigma for j in range(cs)] for i in range(cs)]
+
+L = 0
+LL= 1000000000000000
+zapomnit = 0
+index_kuda = 0
+index_otkuda = 0
+count = 0
+
+for ant in range (ants):
+    ants_mass = [j for j in range(cs)]
+    zxc = ant%cs
+    ants_mass[zxc] = -1
+    index_otkuda = zxc
+    L = 0
+    count = 0
+    choice =-1
+    count2 = 0
+   
+    while(count!=cs):
+        while(choice==-1):
+            choice = choices(ants_mass,weights=p[index_otkuda])[0]
+            if (choice>-1) :
+                ants_mass[choice] = -1
+                count2+=1
+
+               
+            if (count2==cs-2):
+                
+                L = L + matrix[index_otkuda][choice]
+                index_otkuda =choice
+                count2 +=1
+                ants_mass[choice] = -1
+                for w in range (cs):
+                    if ants_mass[w]!=-1:
+                        zapomnit =ants_mass[w]
+
+                choice =zapomnit
+             
+                continue
+
+            if count2 ==cs or count2 ==cs-1:
+               #L = L + matrix[index_otkuda][choice]
+                break
+
+        L = L+matrix[index_otkuda][choice]
+        index_otkuda = choice
+        count += 1
+        t = [[Q / L for j in range(cs)] for i in range(cs)]
+        sigma = sig(cs, t, a, n, b)
+        p = [[(t[i][j] ** a * n[i][j] ** b) / sigma for j in range(cs)] for i in range(cs)]
+        choice =-1
+    if L +matrix[index_otkuda][zxc] <LL  :
+      
+        LL =L +matrix[index_otkuda][zxc]
+        print(LL)
+
+
+print(LL)
+
